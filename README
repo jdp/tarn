@@ -1,3 +1,6 @@
 Tarn is a simple and flexible roguelike engine written in C that allows you to
-completely script the game in embedded Lua, and provides you with a few simple
-API functions to aid you.
+completely script the game in embedded Lua, and provides a few simple API
+functions to aid you.
+
+REQUIREMENTS
+gcc, libtcod 1.2, lua 5.1
