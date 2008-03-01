@@ -1,4 +1,5 @@
-# lua 5.1 and libtcod 1.2
+# requires lua 5.1 and libtcod 1.2
+# this is my linux makefile. works fine for me, should help you out
 
 CC = gcc
 CFLAGS = -Wall -pedantic
