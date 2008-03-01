@@ -4,9 +4,3 @@ functions to aid you.
 
 REQUIREMENTS
 gcc, libtcod 1.2, lua 5.1
-
-HOW TO USE
-When tarn is started, it first looks for whatever config file CONFIG_SCRIPT is
-defined as in tarn.h and executes it. Then it will try to initialize the game
-window. After that, it will execute the script defined as START_SCRIPT in
-tarn.h. These Lua scripts are not provided, you must write them yourself.
