@@ -1,8 +1,5 @@
 /* Copyright (c) 2008 The Poppenkast */
 
-/* The name of the configuration script */
-#define CONFIG_SCRIPT	"config.lua"
-
 /* The name of the startup script */
 #define START_SCRIPT	"tarn.lua"
 
@@ -14,18 +11,20 @@ TCOD_color_t color_table[] = {
 	{138, 138, 138}, {163, 229, 153}, {138, 123, 206}, {173, 173, 173}
 };
 
+/* The default color */
 #define COLOR_DEFAULT 15
 
 /* Function prototypes */
-void init_lua(void);
-void init_console(void);
-const char* config(char *);
+void init(void);
 void start(void);
 void end(void);
 
+const char* tarn_global(char*);
+
 /* A small API for Lua to interact with Tarn */
 static int tarnapi_dofile(lua_State*);
+static int tarnapi_init(lua_State*);
 static int tarnapi_printat(lua_State*);
 static int tarnapi_getkey(lua_State*);
-static int tarnapi_clear(lua_State *LS);
+static int tarnapi_clear(lua_State*);
 static int tarnapi_draw(lua_State*);
