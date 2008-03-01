@@ -54,8 +54,11 @@ const char* tarn_global(char *option) {
 /* Tarn API call to process a Lua file */
 static int tarnapi_dofile(lua_State *LS) {
 	/* Make sure enough arguments were passed */
-	if (lua_gettop(LS) < 1)
+	if (lua_gettop(LS) < 1) {
+		lua_pushstring(LS, "not enough arguments passed to tarn_dofile");
+		lua_error(LS);
 		return 0;
+	}
 	/* Fetch the arguments passed */
 	const char *filename = lua_tostring(LS, 1);
 	lua_pop(LS, 1);
@@ -106,8 +109,11 @@ static int tarnapi_printat(lua_State *LS) {
 	}
 	/* Make sure enough arguments were passed */
 	int stacksize = lua_gettop(LS);
-	if (stacksize < 3)
+	if (stacksize < 3) {
+		lua_pushstring(LS, "not enough parameters passed to tarn_print");
+		lua_error(LS);
 		return 0;
+	}
 	/* Fetch all the arguments passed */
 	int x = lua_tonumber(LS, -3);
 	int y = lua_tonumber(LS, -2);
