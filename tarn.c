@@ -77,14 +77,14 @@ static int tarnapi_init(lua_State *LS) {
 	int conw = 80, conh = 25;
 	
 	/* Use a custom console title, if provided */
-	if (tarn_global("tarn_console_title") != NULL)
-		cont = tarn_global("tarn_console_title");
+	if (tarn_global("tarn_display_title") != NULL)
+		cont = tarn_global("tarn_display_title");
 		
 	/* Use custom console dimensions */
-	if (tarn_global("tarn_console_width") != NULL)
-		conw = atoi(tarn_global("tarn_console_width"));
-	if (tarn_global("tarn_console_height") != NULL)
-		conh = atoi(tarn_global("tarn_console_height"));
+	if (tarn_global("tarn_display_width") != NULL)
+		conw = atoi(tarn_global("tarn_display_width"));
+	if (tarn_global("tarn_display_height") != NULL)
+		conh = atoi(tarn_global("tarn_display_height"));
 	
 	/* Open the libtcod console */
 	TCOD_color_t key = {0, 0, 0};
