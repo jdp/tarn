@@ -20,6 +20,7 @@ void init(void) {
 	
 	/* Register custom functions available to Lua */
 	lua_register(L, "tarn_init", tarnapi_init);
+	lua_register(L, "tarn_loadmodule", tarnapi_loadmodule);
 	lua_register(L, "tarn_dofile", tarnapi_dofile);
 	lua_register(L, "tarn_print", tarnapi_printat);
 	lua_register(L, "tarn_getkey", tarnapi_getkey);
@@ -50,6 +51,34 @@ const char* tarn_global(char *option) {
 		lua_pop(L, 1);
 	}
 	return value;
+}
+
+/* Tarn API call to include a module */
+static int tarnapi_loadmodule(lua_State *LS) {
+	/* Make sure enough arguments were passed */
+	if (lua_gettop(LS) < 1) {
+		lua_pushstring(LS, "not enough arguments passed to tarn_loadmodule");
+		lua_error(LS);
+		return 0;
+	}
+	
+	/* Fetch the arguments passed */
+	const char* module_name = lua_tostring(LS, 1);
+	lua_pop(LS, 1);
+	
+	/* Expand the module path name */
+	char* filename = (char*) malloc(strlen(module_name) + 15);
+	memset(filename, 0, strlen(filename));
+	sprintf(filename, "modules/%s.lua", module_name);
+	
+	/* Run file and catch errors */
+	if (luaL_dofile(L, filename) == 1) {
+		fprintf(stderr, "Error in %s:\n", filename);
+		fprintf(stderr, "\t%s\n", lua_tostring(L, -1));
+		lua_pop(L, 1);
+	}
+	
+	return 1;
 }
 
 /* Tarn API call to process a Lua file */

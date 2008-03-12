@@ -3,13 +3,13 @@
 -- Copyright (c) 2008 J. Poliey <jdp34@njit.edu>
 
 -- Include core Tarn modules
-tarn_dofile("modules/config.lua")
-tarn_dofile("modules/ini.lua")
-tarn_dofile("modules/msgbuf.lua")
-tarn_dofile("modules/player.lua")
-tarn_dofile("modules/monster.lua")
-tarn_dofile("modules/item.lua")
-tarn_dofile("modules/map.lua")
+tarn_loadmodule("config")
+tarn_loadmodule("ini")
+tarn_loadmodule("msgbuf")
+tarn_loadmodule("player")
+tarn_loadmodule("monster")
+tarn_loadmodule("item")
+tarn_loadmodule("map")
 
 -- Configure the display window
 tarn_display_width = 80

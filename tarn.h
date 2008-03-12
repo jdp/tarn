@@ -35,6 +35,7 @@ const char* tarn_global(char*);
 
 /* A small API for Lua to interact with Tarn */
 static int tarnapi_dofile(lua_State*);
+static int tarnapi_loadmodule(lua_State*);
 static int tarnapi_init(lua_State*);
 static int tarnapi_printat(lua_State*);
 static int tarnapi_getkey(lua_State*);
