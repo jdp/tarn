@@ -4,7 +4,7 @@
 CC = gcc
 CFLAGS = -Wall -pedantic
 OBJ = tarn.o
-LIB = -llua5.1 -ltcod -lSDL
+LIB = -llua5.1 -ltcod
 OUT = tarn
 
 $(OUT): $(OBJ)
