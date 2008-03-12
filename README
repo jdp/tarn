@@ -3,7 +3,7 @@ completely script the game in embedded Lua, and provides a few simple API
 functions to aid you.
 
 REQUIREMENTS
-gcc, libtcod 1.2, lua 5.1
+gcc, libtcod 1.2.1, lua 5.1
 
 DOCUMENTATION
 http://github.com/jdp/tarn/wikis
