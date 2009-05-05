@@ -3,7 +3,13 @@ completely script the game in embedded Lua, and provides a few simple API
 functions to aid you.
 
 REQUIREMENTS
-gcc, libtcod 1.2.1, lua 5.1
+  gcc, libtcod 1.4.0, lua 5.1
 
 DOCUMENTATION
-http://github.com/jdp/tarn/wikis
+  http://github.com/jdp/tarn/wikis
+
+BUILD NOTES
+  You'll need to edit the LIBTCOD variable in the Makefile to point to where
+  you unzippled libtcod to. libtcod's Makefile doesn't include a `make install`
+  rule, so everything that gets made just stays in that folder. Rather than
+  manually copying+pasting, just edit the Tarn Makefile accordingly.

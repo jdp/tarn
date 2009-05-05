@@ -6,7 +6,7 @@
 #include <lua5.1/lua.h>
 #include <lua5.1/lualib.h>
 #include <lua5.1/lauxlib.h>
-#include <libtcod/libtcod.h>
+#include "libtcod.h"
 #include "tarn.h"
 
 /* Handle to the Lua interpreter */
@@ -17,7 +17,7 @@ void init(void) {
 	/* Initialize the Lua interpreter */
 	L = luaL_newstate();
 	luaL_openlibs(L);
-	
+
 	/* Register custom functions available to Lua */
 	lua_register(L, "tarn_init", tarnapi_init);
 	lua_register(L, "tarn_loadmodule", tarnapi_loadmodule);
@@ -61,23 +61,23 @@ static int tarnapi_loadmodule(lua_State *LS) {
 		lua_error(LS);
 		return 0;
 	}
-	
+
 	/* Fetch the arguments passed */
 	const char* module_name = lua_tostring(LS, 1);
 	lua_pop(LS, 1);
-	
+
 	/* Expand the module path name */
 	char* filename = (char*) malloc(strlen(module_name) + 15);
 	memset(filename, 0, strlen(filename));
 	sprintf(filename, "modules/%s.lua", module_name);
-	
+
 	/* Run file and catch errors */
 	if (luaL_dofile(L, filename) == 1) {
 		fprintf(stderr, "Error in %s:\n", filename);
 		fprintf(stderr, "\t%s\n", lua_tostring(L, -1));
 		lua_pop(L, 1);
 	}
-	
+
 	return 1;
 }
 
@@ -89,18 +89,18 @@ static int tarnapi_dofile(lua_State *LS) {
 		lua_error(LS);
 		return 0;
 	}
-	
+
 	/* Fetch the arguments passed */
 	const char *filename = lua_tostring(LS, 1);
 	lua_pop(LS, 1);
-	
+
 	/* Run file and catch errors */
 	if (luaL_dofile(L, filename) == 1) {
 		fprintf(stderr, "Error in %s:\n", filename);
 		fprintf(stderr, "\t%s\n", lua_tostring(L, -1));
 		lua_pop(L, 1);
 	}
-	
+
 	return 1;
 }
 
@@ -108,27 +108,27 @@ static int tarnapi_dofile(lua_State *LS) {
 static int tarnapi_init(lua_State *LS) {
 	const char *cont = "Tarn";
 	int conw = 80, conh = 25;
-	
+
 	/* Use a custom console title, if provided */
 	if (tarn_global("tarn_display_title") != NULL)
 		cont = tarn_global("tarn_display_title");
-		
+
 	/* Use custom console dimensions */
 	if (tarn_global("tarn_display_width") != NULL)
 		conw = atoi(tarn_global("tarn_display_width"));
 	if (tarn_global("tarn_display_height") != NULL)
 		conh = atoi(tarn_global("tarn_display_height"));
-	
+
 	/* Open the libtcod console */
 	TCOD_color_t key = {0, 0, 0};
-	TCOD_console_set_custom_font("data/font8x12.bmp", 8, 12, 16, 16, 0, key);
+	TCOD_console_set_custom_font("data/font8x12.bmp", 8, 12, TCOD_FONT_LAYOUT_ASCII_INCOL);
 	TCOD_console_init_root(conw, conh, cont, false);
 	TCOD_console_set_foreground_color(NULL, color_table[15]);
-	
+
 	/* Set the tarn_initialized flag */
 	lua_pushinteger(LS, 1);
 	lua_setglobal(LS, "tarn_initialized");
-	
+
 	return 1;
 }
 
@@ -140,7 +140,7 @@ static int tarnapi_printat(lua_State *LS) {
 		lua_error(LS);
 		return 0;
 	}
-	
+
 	/* Make sure enough arguments were passed */
 	int stacksize = lua_gettop(LS);
 	if (stacksize < 3) {
@@ -148,13 +148,13 @@ static int tarnapi_printat(lua_State *LS) {
 		lua_error(LS);
 		return 0;
 	}
-	
+
 	/* Fetch all the arguments passed */
 	int x = lua_tonumber(LS, -3);
 	int y = lua_tonumber(LS, -2);
 	const char *s = lua_tostring(LS, -1);
 	lua_pop(LS, 3);
-	
+
 	/* Print s at x,y with control codes */
 	TCOD_bkgnd_flag_t bkgnd = TCOD_BKGND_NONE;
 	int scan, color_code, offset;
@@ -188,11 +188,11 @@ static int tarnapi_getkey(lua_State *LS) {
 		lua_error(LS);
 		return 0;
 	}
-	
+
 	/* Read the keystroke from libtcod */
 	TCOD_key_t key;
 	key = TCOD_console_wait_for_keypress(true);
-	
+
 	/* Create a table with the libtcod key_t structure */
 	lua_newtable(LS);
 	lua_pushstring(LS, "vk");
@@ -227,10 +227,10 @@ static int tarnapi_clear(lua_State *LS) {
 		lua_error(LS);
 		return 0;
 	}
-	
+
 	/* Clear the libtcod console */
 	TCOD_console_clear(NULL);
-	
+
 	return 1;
 }
 
@@ -242,10 +242,10 @@ static int tarnapi_draw(lua_State *LS) {
 		lua_error(LS);
 		return 0;
 	}
-	
+
 	/* Flush the libtcod console */
 	TCOD_console_flush();
-	
+
 	return 1;
 }
 
